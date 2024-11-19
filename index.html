@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rivalsdle</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="language-selector">
+        <button onclick="changeLanguage('en')" class="lang-btn">🇺🇸</button>
+        <button onclick="changeLanguage('pt')" class="lang-btn">🇧🇷</button>
+    </div>
+
+    <div class="container">
+        <div class="logo">
+            <img src="assets/logo.png" alt="Rivalsdle Logo">
+            <h1 data-lang="title">RIVALSDLE</h1>
+        </div>
+
+        <div class="button-container">
+            <button class="game-button" data-lang="character">Character</button>
+            <button class="game-button disabled" data-lang="map" disabled>Map (Coming Soon)</button>
+            <button class="game-button disabled" data-lang="skin" disabled>Skin (Coming Soon)</button>
+            <button class="game-button disabled" data-lang="ability" disabled>Ability (Coming Soon)</button>
+        </div>
+    </div>
+
+    <div class="credits" data-lang="credits">Produced by TheGabenZone</div>
+
+    <script src="languages.js"></script>
+    <script src="script.js"></script>
+    <script src="popup.js"></script>
+
+    <div class="popup-overlay" id="difficultyPopup">
+        <div class="popup-content">
+            <h2 class="difficulty-title" data-lang="selectDifficulty">Select Difficulty</h2>
+            <button class="difficulty-btn easy" data-difficulty="easy" data-lang="difficulty-easy">Easy</button>
+            <button class="difficulty-btn medium" data-difficulty="medium" data-lang="difficulty-medium">Medium</button>
+            <button class="difficulty-btn hard" data-difficulty="hard" data-lang="difficulty-hard">Hard</button>
+        </div>
+    </div>
+    <div class="side-light" id="sideLights"></div>
+</body>
+</html>

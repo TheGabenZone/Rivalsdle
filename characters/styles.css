@@ -1,0 +1,240 @@
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.character-image-container {
+    width: 400px;
+    height: 400px;
+    margin: 20px 0;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #9b4dff;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.mystery-text {
+    color: white;
+    font-size: 24px;
+    position: absolute;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+#character-image {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+#character-image.fade-out {
+    transition: filter 0.5s ease-out;
+}
+
+.search-container {
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+    display: flex;      /* Added flex display */
+    flex-direction: column;
+    align-items: center;
+}
+
+#character-search {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #9b4dff;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 18px;
+}
+
+#character-search::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+#character-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+.search-results {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: rgba(43, 0, 84, 0.95);
+    border: 1px solid #9b4dff;
+    border-radius: 0 0 5px 5px;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+
+.search-result-item {
+    padding: 10px;
+    cursor: pointer;
+    color: white;
+}
+
+.search-result-item:hover {
+    background: rgba(155, 77, 255, 0.3);
+}
+
+.lives-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    color: white;
+}
+
+.keywords-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 20px 0;
+    justify-content: center;
+}
+
+.keyword {
+    background: rgba(155, 77, 255, 0.2);
+    padding: 5px 15px;
+    border-radius: 15px;
+    color: white;
+    border: 1px solid #9b4dff;
+}
+
+/* Victory Animations */
+.sparkle-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: #FFD700;
+    border-radius: 50%;
+    animation: sparkle 1s ease-out forwards;
+    box-shadow: 0 0 4px #FFD700;
+}
+
+.volcanic-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.flame {
+    position: absolute;
+    bottom: -20px;
+    transform-origin: center bottom;
+    border-radius: 50% 50% 20% 20%;
+    animation: flame 2s ease-out forwards;
+    filter: blur(2px);
+}
+
+@keyframes sparkle {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--tx), var(--ty)) scale(0);
+        opacity: 0;
+    }
+}
+
+@keyframes flame {
+    0% {
+        transform: translateY(100%) scaleY(0.5) scaleX(1);
+        opacity: 0;
+    }
+    20% {
+        transform: translateY(80%) scaleY(1.2) scaleX(0.8);
+        opacity: 0.8;
+    }
+    80% {
+        transform: translateY(-100%) scaleY(0.8) scaleX(1.2);
+        opacity: 0.4;
+    }
+    100% {
+        transform: translateY(-150%) scaleY(0.5) scaleX(1);
+        opacity: 0;
+    }
+}
+
+.game-over-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.game-over-modal {
+    background: rgba(43, 0, 84, 0.95);
+    padding: 30px;
+    border-radius: 10px;
+    border: 2px solid #9b4dff;
+    text-align: center;
+    color: white;
+}
+
+.game-over-modal h2 {
+    color: #ff4444;
+    margin-bottom: 20px;
+}
+
+.game-over-modal button {
+    background: #9b4dff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+.game-over-modal button:hover {
+    background: #8a3dff;
+}
+
+.victory-modal h2 {
+    color: #4CAF50;  /* Green color for victory */
+    margin-bottom: 20px;
+}
+
+.victory-modal p {
+    margin-bottom: 20px;
+    font-size: 18px;
+}

@@ -1,0 +1,150 @@
+@font-face {
+    font-family: 'RefrigeratorDeluxe';
+    src: url('./fonts/RefrigeratorDeluxeHeavy_8349567.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    background: linear-gradient(45deg, #000000, #2b0054);
+    font-family: 'RefrigeratorDeluxe', sans-serif;
+    position: relative;
+    overflow: hidden;
+}
+
+.stars {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.star {
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+    animation: fadeIn 2s ease-out, pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% { 
+        opacity: 0; 
+        transform: scale(1); 
+    }
+    50% { 
+        opacity: 1; 
+        transform: scale(1.5); 
+    }
+    100% { 
+        opacity: 0; 
+        transform: scale(1); 
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    z-index: 1;
+    position: relative;
+}
+
+.logo {
+    margin-bottom: 50px;
+    text-align: center;
+    width: 100%;
+}
+
+.logo h1 {
+    color: white;
+    font-family: 'RefrigeratorDeluxeHeavy_8349567', sans-serif;
+    font-size: 48px;
+    margin: 0;
+    letter-spacing: 2px;
+    text-shadow: 0 0 10px rgba(155, 77, 255, 0.5);
+}
+
+.button-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.game-button {
+    padding: 20px 40px;
+    font-size: 24px;
+    font-family: 'RefrigeratorDeluxeHeavy_8349567', sans-serif;
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid #9b4dff;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.game-button:hover {
+    background: rgba(155, 77, 255, 0.3);
+    transform: scale(1.05);
+    box-shadow: 0 0 15px #9b4dff;
+}
+
+.credits {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    color: white;
+    font-size: 16px;
+    opacity: 0.7;
+}
+
+.language-selector {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2;
+}
+
+.lang-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid #9b4dff;
+    border-radius: 5px;
+    padding: 5px 10px;
+    margin-left: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    transition: all 0.3s ease;
+}
+
+.lang-btn:hover {
+    background: rgba(155, 77, 255, 0.3);
+    transform: scale(1.1);
+}
+
+.game-button.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    position: relative;
+}
+
+.game-button.disabled::after {
+    content: '🔒';
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    font-size: 20px;
+}

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rivalsdle - Characters</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="stars" id="stars"></div>
+    
+    <div class="game-container">
+        <div class="lives-container">
+            <span id="lives-count"></span>
+            <div id="lives-icons"></div>
+        </div>
+
+        <div class="character-image-container">
+            <img id="character-image" src="" alt="Mystery Character">
+        </div>
+
+        <div class="keywords-container" id="keywords-container">
+            <!-- Keywords will be inserted here for hard mode -->
+        </div>
+
+        <div class="search-container">
+            <input type="text" id="character-search" placeholder="Search character...">
+            <div id="search-results" class="search-results"></div>
+        </div>
+    </div>
+
+    <script src="../script.js"></script>
+    <script src="data/characters.js"></script>
+    <script src="animations.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
