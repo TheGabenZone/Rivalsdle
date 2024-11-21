@@ -1,6 +1,6 @@
 // YouTube API configuration
 const YOUTUBE_API_KEY = 'AIzaSyCAiLSLuKkFlYfa96fie44MDirKHK3l9ks'; // Replace with actual API key
-const LIVESTREAM_ID = '_CHvs_X7ajo';
+const LIVESTREAM_ID = '4wuNQ4JmCko';
 
 // Global variable to store chat messages
 window.currentLiveChatMessages = [];
