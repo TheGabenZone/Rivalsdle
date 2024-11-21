@@ -4,6 +4,7 @@ class CharacterGame {
         this.lives = this.getInitialLives();
         this.currentCharacter = null;
         this.shownKeywords = 0; // For hard difficulty keywords
+        this.correctGuesses = 0; // For unlimited mode
 
         this.initializeGame();
     }
@@ -13,26 +14,31 @@ class CharacterGame {
             case 'easy': return 3;
             case 'medium': return 6;
             case 'hard': return 9;
+            case 'unlimited': return 5;
             default: return 3;
         }
     }
 
     async initializeGame() {
-        // Get today's character based on UTC midnight
-        this.currentCharacter = await this.getTodaysCharacter();
-
-        // Check if game is already completed
-        const completedGame = this.checkDailyAttempt();
-
-        this.setupUI();
-
-        if (completedGame) {
-            // Show original image if game is completed
-            const img = document.getElementById('character-image');
-            img.src = `../characters/images/${this.currentCharacter.toLowerCase().replace(/ /g, '_')}.png`;
+        if (this.difficulty === 'unlimited') {
+            await this.loadNextUnlimitedCharacter();
         } else {
-            // Apply difficulty effects for new game
-            this.applyDifficultyEffects();
+            // Get today's character based on UTC midnight
+            this.currentCharacter = await this.getTodaysCharacter();
+    
+            // Check if game is already completed
+            const completedGame = this.checkDailyAttempt();
+    
+            this.setupUI();
+    
+            if (completedGame) {
+                // Show original image if game is completed
+                const img = document.getElementById('character-image');
+                img.src = `../characters/images/${this.currentCharacter.toLowerCase().replace(/ /g, '_')}.png`;
+            } else {
+                // Apply difficulty effects for new game
+                this.applyDifficultyEffects();
+            }
         }
     }
 
@@ -160,9 +166,10 @@ class CharacterGame {
     applyZoom() {
         const img = document.getElementById('character-image');
         
-        // Reset transform first
+        // Reset transform and filter first
         img.style.transform = 'none';
         img.style.transformOrigin = 'center';
+        img.style.filter = 'none';
         
         // Force a reflow
         void img.offsetWidth;
@@ -172,29 +179,59 @@ class CharacterGame {
         today.setUTCHours(0, 0, 0, 0);
         const seed = today.getTime() + this.difficulty.charCodeAt(0);
         
-        // Define zoom level that ensures ~35% of the image is visible
-        const zoomLevel = 4;
+        // Define zoom level that ensures ~25% of the image is visible
+        const zoomLevel = 8;
         
-        // Calculate maximum translation to ensure image stays partially visible
-        const maxTranslateX = (zoomLevel - 1) * 100;
-        const maxTranslateY = (zoomLevel - 1) * 100;
+        // Calculate maximum translation
+        const maxTranslateX = (zoomLevel - 1);
+        const maxTranslateY = (zoomLevel - 1);
         
-        // Generate seeded random positions
+        // Generate seeded random positions and rotation
         const translateX = (this.seededRandom(seed, 1000) / 1000) * maxTranslateX - (maxTranslateX / 2);
         const translateY = (this.seededRandom(seed + 1, 1000) / 1000) * maxTranslateY - (maxTranslateY / 2);
+        const rotation = (this.seededRandom(seed + 2, 360)); // Random rotation between 0-360 degrees
         
-        // Apply transform with a slight delay to ensure reset took effect
+        // Apply transform with rotation and slight delay
         requestAnimationFrame(() => {
-            img.style.transform = `scale(${zoomLevel}) translate(${translateX}%, ${translateY}%)`;
+            img.style.transform = `scale(${zoomLevel}) translate(${translateX}%, ${translateY}%) rotate(${rotation}deg)`;
+            img.style.filter = 'blur(2px)';
         });
     }
 
-    makeGuess(characterName) {
+    async makeGuess(characterName) {
         if (characterName === this.currentCharacter) {
-            if (this.difficulty === 'medium') {
-                this.handleCorrectGuessMedium();
+            if (this.difficulty === 'unlimited') {
+                // Increment correct guesses counter
+                this.correctGuesses++;
+                
+                // Get the current difficulty effect
+                const img = document.getElementById('character-image');
+                const hasKeywords = document.getElementById('keywords-container').children.length > 0;
+                const isZoomed = img.style.transform.includes('scale');
+                
+                // Apply appropriate reveal animation based on current effect
+                if (hasKeywords) {
+                    await this.handleCorrectGuessHard();
+                } else if (isZoomed) {
+                    await this.handleCorrectGuessMedium();
+                } else {
+                    await this.handleCorrectGuess();
+                }
+                
+                // Clear search box
+                const searchBox = document.getElementById('character-search');
+                searchBox.value = '';
+                
+                // Load next character
+                await this.loadNextUnlimitedCharacter();
             } else {
-                this.handleCorrectGuess();
+                if (this.difficulty === 'medium') {
+                    this.handleCorrectGuessMedium();
+                } else if (this.difficulty === 'hard') {
+                    this.handleCorrectGuessHard();
+                } else {
+                    this.handleCorrectGuess();
+                }
             }
         } else {
             this.handleWrongGuess();
@@ -221,11 +258,10 @@ class CharacterGame {
         // Play victory animation after reveal
         await GameAnimations.playVictoryAnimation(this.difficulty);
     
-        // Save completion to localStorage
-        this.saveGameCompletion();
-    
-        // Show victory modal
-        this.showVictoryModal();
+        if(this.difficulty === 'easy') {
+            this.saveGameCompletion();
+            this.showVictoryModal();
+        }
     }
 
     async handleCorrectGuessMedium() {
@@ -258,11 +294,47 @@ class CharacterGame {
         // Play victory animation after reveal
         await GameAnimations.playVictoryAnimation(this.difficulty);
         
-        // Save completion to localStorage
-        this.saveGameCompletion();
+        if(this.difficulty === 'medium') {
+            this.saveGameCompletion();
+            this.showVictoryModal();
+        }
+    }
+
+    async handleCorrectGuessHard() {
+        // Clear keywords
+        const keywordsContainer = document.getElementById('keywords-container');
+        keywordsContainer.innerHTML = '';
         
-        // Show victory modal
-        this.showVictoryModal();
+        // Show and reveal the image
+        const img = document.getElementById('character-image');
+        img.style.display = 'block';
+        img.style.transform = 'scale(0.1)';
+        img.style.opacity = '0';
+        img.style.transition = 'transform 1s ease-out, opacity 0.5s ease-in';
+        
+        // Force reflow
+        void img.offsetWidth;
+        
+        // Update to original image first
+        img.src = `../characters/images/${this.currentCharacter.toLowerCase().replace(/ /g, '_')}.png`;
+        
+        // Wait for image to load
+        await img.decode();
+        
+        // Start the zoom animation
+        img.style.transform = 'scale(1)';
+        img.style.opacity = '1';
+        
+        // Wait for zoom transition
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        // Play victory animation
+        await GameAnimations.playVictoryAnimation('hard');
+    
+        if(this.difficulty === 'hard') {
+            this.saveGameCompletion();
+            this.showVictoryModal();
+        }
     }
 
     showVictoryModal() {
@@ -323,19 +395,26 @@ class CharacterGame {
     }
 
     handleGameOver() {
-        // Create overlay div
         const overlay = document.createElement('div');
         overlay.className = 'game-over-overlay';
-
-        // Create modal content
+    
         const modal = document.createElement('div');
         modal.className = 'game-over-modal';
-        modal.innerHTML = `
-            <h2>You Failed!</h2>
-            <button onclick="window.location.href='../index.html'">Return to Main Menu</button>
-        `;
-
-        // Add modal to overlay
+        
+        // Show different message for unlimited mode
+        if (this.difficulty === 'unlimited') {
+            modal.innerHTML = `
+                <h2>Game Over!</h2>
+                <p>You correctly guessed ${this.correctGuesses} characters!</p>
+                <button onclick="window.location.href='../index.html'">Return to Main Menu</button>
+            `;
+        } else {
+            modal.innerHTML = `
+                <h2>You Failed!</h2>
+                <button onclick="window.location.href='../index.html'">Return to Main Menu</button>
+            `;
+        }
+    
         overlay.appendChild(modal);
         document.body.appendChild(overlay);
     }
@@ -372,6 +451,41 @@ class CharacterGame {
             keywordElement.textContent = keyword;
             keywordsContainer.appendChild(keywordElement);
         });
+    }
+
+    async loadNextUnlimitedCharacter() {
+        // Get a random character
+        const randomIndex = Math.floor(Math.random() * charactersList.length);
+        this.currentCharacter = charactersList[randomIndex];
+        
+        // Apply a random difficulty effect
+        const difficulties = ['easy', 'medium', 'hard'];
+        const randomDifficulty = difficulties[Math.floor(Math.random() * difficulties.length)];
+        
+        // Reset image and UI
+        const img = document.getElementById('character-image');
+        img.style.transform = 'none';
+        img.style.filter = 'none';
+        img.style.display = 'block';
+        
+        // Setup UI elements
+        this.setupUI();
+        
+        // Load new image
+        await this.loadCharacterImage();
+        
+        // Apply the random difficulty effect
+        switch (randomDifficulty) {
+            case 'easy':
+                this.applySilhouette();
+                break;
+            case 'medium':
+                this.applyZoom();
+                break;
+            case 'hard':
+                this.showKeywords();
+                break;
+        }
     }
 }
 

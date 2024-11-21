@@ -238,3 +238,69 @@
     margin-bottom: 20px;
     font-size: 18px;
 }
+
+.leaderboard-container {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(43, 0, 84, 0.8);
+    border: 2px solid #9b4dff;
+    border-radius: 10px;
+    padding: 15px;
+    width: 250px;
+    max-height: 400px;
+    color: white;
+    display: none; /* Initially hidden */
+    z-index: 1000; /* Ensure it's above other elements */
+}
+
+/* Show leaderboard when online mode is active */
+.leaderboard-container.active {
+    display: block;
+}
+
+.leaderboard-content {
+    overflow-y: auto;
+    max-height: 350px;
+}
+
+.chat-guess {
+    padding: 8px;
+    margin: 5px 0;
+    background: rgba(155, 77, 255, 0.2);
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.chat-winner {
+    background: rgba(255, 215, 0, 0.3);
+    border: 1px solid #ffd700;
+    animation: pulseGold 2s infinite;
+}
+
+@keyframes pulseGold {
+    0% { box-shadow: 0 0 5px #ffd700; }
+    50% { box-shadow: 0 0 15px #ffd700; }
+    100% { box-shadow: 0 0 5px #ffd700; }
+}
+
+.return-menu-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    padding: 10px 20px;
+    background: rgba(155, 77, 255, 0.2);
+    border: 2px solid #9b4dff;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.return-menu-button:hover {
+    background: rgba(155, 77, 255, 0.4);
+    box-shadow: 0 0 10px rgba(155, 77, 255, 0.5);
+}

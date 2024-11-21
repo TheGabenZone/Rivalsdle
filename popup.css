@@ -44,7 +44,7 @@
 }
 
 .difficulty-btn.easy:hover {
-    background: rgba(255, 255, 0, 0.2);
+    background: rgba(30, 255, 0, 0.2);
 }
 
 .difficulty-btn.medium:hover {
@@ -53,6 +53,10 @@
 
 .difficulty-btn.hard:hover {
     background: rgba(255, 0, 0, 0.2);
+}
+
+.difficulty-btn.unlimited:hover {
+    background: rgba(155, 77, 255, 0.3);
 }
 
 .side-light {
@@ -90,4 +94,20 @@
         rgba(255, 0, 0, 0) 80%,
         rgba(255, 0, 0, 0.9) 100%
     );
+}
+
+.side-light.unlimited {
+    background: linear-gradient(90deg, 
+        rgba(155, 77, 255, 0.9) 0%,
+        rgba(155, 77, 255, 0) 20%,
+        rgba(155, 77, 255, 0) 80%,
+        rgba(155, 77, 255, 0.9) 100%
+    );
+}
+
+.online-mode-message {
+    color: #ffd700;
+    margin-bottom: 20px;
+    font-size: 18px;
+    opacity: 0.8;
 }

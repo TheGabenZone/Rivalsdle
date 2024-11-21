@@ -4,6 +4,27 @@ function showDifficultyPopup(gameType) {
     
     // Store the game type for later use
     popup.setAttribute('data-game-type', gameType);
+
+    // Get the message element
+    const onlineModeMessage = popup.querySelector('.online-mode-message');
+
+    // Show/hide difficulty buttons based on online mode
+    const difficultyButtons = document.querySelectorAll('.difficulty-btn');
+    if (youtubeChat && youtubeChat.isConnected) {
+        // Only show Unlimited mode when online
+        difficultyButtons.forEach(button => {
+            button.style.display = button.dataset.difficulty === 'unlimited' ? 'block' : 'none';
+        });
+        // Show the message
+        onlineModeMessage.style.display = 'block';
+    } else {
+        // Show all difficulties when offline
+        difficultyButtons.forEach(button => {
+            button.style.display = 'block';
+        });
+        // Hide the message
+        onlineModeMessage.style.display = 'none';
+    }
 }
 
 function initializeDifficultyButtons() {
@@ -29,11 +50,16 @@ function initializeDifficultyButtons() {
 }
 
 function startGame(gameType, difficulty) {
+    // Store the selected difficulty in localStorage for unlimited mode
+    if (difficulty === 'unlimited') {
+        localStorage.setItem('unlimited_mode', 'true');
+    } else {
+        localStorage.removeItem('unlimited_mode');
+    }
+    
     // If it's a character game, redirect to the character game page
     if (gameType === 'character') {
         window.location.href = `./characters/index.html?difficulty=${difficulty}`;
-    } else {
-        console.log(`Starting ${gameType} game on ${difficulty} difficulty`);
     }
     document.getElementById('difficultyPopup').style.display = 'none';
 }
@@ -42,8 +68,8 @@ function startGame(gameType, difficulty) {
 document.addEventListener('DOMContentLoaded', () => {
     initializeDifficultyButtons();
     
-    // Add click handlers to game buttons
-    document.querySelectorAll('.game-button').forEach(button => {
+    // Add click handlers to game buttons (excluding online mode button)
+    document.querySelectorAll('.button-container .game-button').forEach(button => {
         button.addEventListener('click', () => {
             showDifficultyPopup(button.getAttribute('data-lang'));
         });

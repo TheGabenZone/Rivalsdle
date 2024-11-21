@@ -6,14 +6,18 @@
     <title>Rivalsdle</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="popup.css">
+    <!-- Load Google API scripts first -->
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    
+    <!-- Then load your scripts -->
+    <script src="youtube-integration.js"></script>
+    <script src="script.js"></script>
+    <script src="languages.js"></script>
+    <script src="popup.js"></script>
 </head>
 <body>
     <div class="stars" id="stars"></div>
-    
-    <div class="language-selector">
-        <button onclick="changeLanguage('en')" class="lang-btn">🇺🇸</button>
-        <button onclick="changeLanguage('pt')" class="lang-btn">🇧🇷</button>
-    </div>
 
     <div class="container">
         <div class="logo">
@@ -31,16 +35,16 @@
 
     <div class="credits" data-lang="credits">Produced by TheGabenZone</div>
 
-    <script src="languages.js"></script>
-    <script src="script.js"></script>
-    <script src="popup.js"></script>
-
     <div class="popup-overlay" id="difficultyPopup">
         <div class="popup-content">
             <h2 class="difficulty-title" data-lang="selectDifficulty">Select Difficulty</h2>
+            <div class="online-mode-message" style="display: none;" data-lang="onlineMode.unlimitedOnly">
+                Online Mode only supports Unlimited difficulty
+            </div>
             <button class="difficulty-btn easy" data-difficulty="easy" data-lang="difficulty-easy">Easy</button>
             <button class="difficulty-btn medium" data-difficulty="medium" data-lang="difficulty-medium">Medium</button>
             <button class="difficulty-btn hard" data-difficulty="hard" data-lang="difficulty-hard">Hard</button>
+            <button class="difficulty-btn unlimited" data-difficulty="unlimited" data-lang="difficulty-unlimited">Unlimited</button>
         </div>
     </div>
     <div class="side-light" id="sideLights"></div>

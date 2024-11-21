@@ -23,7 +23,10 @@ const charactersList = [
     "Star Lord",
     "Namor",
     "Adam Warlock",
-    "Jeff the Land Shark"
+    "Jeff the Land Shark",
+    "Psylocke",
+    "Moon Knight",
+    "Hawkeye"
 ];
 
 // AI-generated keywords for each character
@@ -152,5 +155,20 @@ const characterKeywords = {
         ["Gwenpool", "Aquatic", "Companion"],
         ["Deadpool", "Puppy", "Carnivorous"],
         ["West Coast", "Avenger", "Pet"]
+    ],
+    "Psylocke": [
+        ["Telekinesis", "Cloth", "Sword"],
+        ["Kitty", "Psycho", "Kiss"],
+        ["Bendis", "X-Men", "Kitty Pryde"]
+    ],
+    "Moon Knight": [
+        ["Egyptian", "Mask", "Assassin"],
+        ["Khonshu", "Moon", "God"],
+        ["Klaw", "Midnight", "Mansion"]
+    ],
+    "Hawkeye": [
+        ["Arrow", "Quiver", "Bow"],
+        ["Clint Barton", "Ronin", "Avenger"],
+        ["Hawkeye", "Quiver", "Arrow"]
     ]
 };

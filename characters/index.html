@@ -9,6 +9,13 @@
 </head>
 <body>
     <div class="stars" id="stars"></div>
+    <button class="return-menu-button">Return to Menu</button>
+        <div class="leaderboard-container">
+        <h2>Chat Guesses</h2>
+        <div class="leaderboard-content" id="leaderboard">
+            <!-- Chat guesses will appear here -->
+        </div>
+    </div>
     
     <div class="game-container">
         <div class="lives-container">
@@ -29,10 +36,15 @@
             <div id="search-results" class="search-results"></div>
         </div>
     </div>
-
-    <script src="../script.js"></script>
     <script src="data/characters.js"></script>
+    <script src="../youtube-integration.js"></script>
+    <script src="../script.js"></script>
     <script src="animations.js"></script>
     <script src="script.js"></script>
+    <script>
+        document.querySelector('.return-menu-button').addEventListener('click', () => {
+            window.location.href = '../index.html';
+        });
+    </script>
 </body>
 </html>

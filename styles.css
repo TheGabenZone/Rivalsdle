@@ -148,3 +148,59 @@ body {
     right: -10px;
     font-size: 20px;
 }
+
+.online-mode-container {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    z-index: 2;
+}
+
+.online-mode-button {
+    padding: 20px 40px;
+    font-size: 24px;
+    font-family: 'RefrigeratorDeluxeHeavy_8349567', sans-serif;
+    color: white;
+    background: rgba(255, 255, 255, 0.15);
+    border: 2px solid #ffd700;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 15px #ffd700, 
+                0 0 25px #ffd700,
+                0 0 35px rgba(255, 215, 0, 0.5);
+    animation: pulseGlow 2s infinite;
+}
+
+.online-mode-button:hover {
+    background: rgba(255, 215, 0, 0.3);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #ffd700, 
+                0 0 30px #ffd700,
+                0 0 40px rgba(255, 215, 0, 0.6);
+}
+
+.online-mode-button.connected {
+    background: rgba(255, 215, 0, 0.3);
+    box-shadow: 0 0 20px #ffd700, 
+                0 0 30px #ffd700,
+                0 0 40px rgba(255, 215, 0, 0.6);
+}
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 15px #ffd700,
+                    0 0 25px #ffd700,
+                    0 0 35px rgba(255, 215, 0, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 20px #ffd700,
+                    0 0 30px #ffd700,
+                    0 0 40px rgba(255, 215, 0, 0.6);
+    }
+    100% {
+        box-shadow: 0 0 15px #ffd700,
+                    0 0 25px #ffd700,
+                    0 0 35px rgba(255, 215, 0, 0.5);
+    }
+}
