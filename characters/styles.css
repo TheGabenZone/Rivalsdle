@@ -1,10 +1,18 @@
 .game-container {
     display: flex;
+    flex-direction: row;  /* Changed from column to row */
+    justify-content: center;
+    align-items: flex-start;  /* Changed from center */
+    padding: 20px;
+    max-width: 1200px;  /* Increased from 800px to accommodate chat */
+    margin: 0 auto;
+    gap: 20px;  /* Add space between chat and game */
+}
+
+.game-content {
+    display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    max-width: 800px;
-    margin: 0 auto;
 }
 
 .character-image-container {
@@ -239,52 +247,6 @@
     font-size: 18px;
 }
 
-.leaderboard-container {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(43, 0, 84, 0.8);
-    border: 2px solid #9b4dff;
-    border-radius: 10px;
-    padding: 15px;
-    width: 250px;
-    max-height: 400px;
-    color: white;
-    display: none; /* Initially hidden */
-    z-index: 1000; /* Ensure it's above other elements */
-}
-
-/* Show leaderboard when online mode is active */
-.leaderboard-container.active {
-    display: block;
-}
-
-.leaderboard-content {
-    overflow-y: auto;
-    max-height: 350px;
-}
-
-.chat-guess {
-    padding: 8px;
-    margin: 5px 0;
-    background: rgba(155, 77, 255, 0.2);
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-.chat-winner {
-    background: rgba(255, 215, 0, 0.3);
-    border: 1px solid #ffd700;
-    animation: pulseGold 2s infinite;
-}
-
-@keyframes pulseGold {
-    0% { box-shadow: 0 0 5px #ffd700; }
-    50% { box-shadow: 0 0 15px #ffd700; }
-    100% { box-shadow: 0 0 5px #ffd700; }
-}
-
 .return-menu-button {
     position: fixed;
     top: 20px;
@@ -303,4 +265,31 @@
 .return-menu-button:hover {
     background: rgba(155, 77, 255, 0.4);
     box-shadow: 0 0 10px rgba(155, 77, 255, 0.5);
+}
+
+.youtube-chat-container {
+    width: 300px;
+    height: 600px;  /* Increased height to match game content */
+    border: 2px solid #9b4dff;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+    position: sticky;
+    top: 20px;  /* Keeps chat visible when scrolling */
+}
+
+.chat-messages {
+    height: 100%;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+.chat-message {
+    color: white;
+    margin-bottom: 8px;
+    font-size: 14px;
+    word-wrap: break-word;
+    padding: 5px 10px;
+    background: rgba(155, 77, 255, 0.1);
+    border-radius: 5px;
 }

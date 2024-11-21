@@ -5,6 +5,21 @@ class CharacterGame {
         this.currentCharacter = null;
         this.shownKeywords = 0; // For hard difficulty keywords
         this.correctGuesses = 0; // For unlimited mode
+        this.chatInterval = null;
+
+        this.userColors = new Map(); // Store username -> color mapping
+        this.availableColors = [
+            '#FF69B4', // Pink
+            '#00FF00', // Lime
+            '#00FFFF', // Cyan
+            '#FFD700', // Gold
+            '#FF4500', // Orange Red
+            '#9370DB', // Medium Purple
+            '#32CD32', // Lime Green
+            '#FF69B4', // Hot Pink
+            '#4169E1', // Royal Blue
+            '#FF8C00'  // Dark Orange
+        ];
 
         this.initializeGame();
     }
@@ -395,6 +410,10 @@ class CharacterGame {
     }
 
     handleGameOver() {
+        if (this.chatInterval) {
+            clearInterval(this.chatInterval);
+        }
+
         const overlay = document.createElement('div');
         overlay.className = 'game-over-overlay';
     
@@ -486,6 +505,51 @@ class CharacterGame {
                 this.showKeywords();
                 break;
         }
+
+        // Show YouTube chat for unlimited mode
+        this.setupYouTubeChat();
+    }
+
+    setupYouTubeChat() {
+        const chatContainer = document.getElementById('youtube-chat-container');
+        chatContainer.style.display = 'block';
+
+        // Clear any existing interval
+        if (this.chatInterval) {
+            clearInterval(this.chatInterval);
+        }
+
+        // Get chat messages from the YouTube integration
+        this.chatInterval = setInterval(() => {
+            if (window.currentLiveChatMessages && window.currentLiveChatMessages.length > 0) {
+                const chatMessages = document.getElementById('chat-messages');
+                
+                // Clear existing messages
+                chatMessages.innerHTML = '';
+                
+                // Get only the last 15 messages
+                const lastMessages = window.currentLiveChatMessages.slice(-15);
+                
+                // Add new messages
+                lastMessages.forEach(message => {
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'chat-message';
+                    messageDiv.innerHTML = `<strong style="color: ${this.getUserColor(message.author)}">${message.author}:</strong> ${message.message}`;
+                    chatMessages.appendChild(messageDiv);
+                });
+                
+                // Auto-scroll to bottom
+                chatMessages.scrollTop = chatMessages.scrollHeight;
+            }
+        }, 1000);
+    }
+
+    getUserColor(username) {
+        if (!this.userColors.has(username)) {
+            const colorIndex = this.userColors.size % this.availableColors.length;
+            this.userColors.set(username, this.availableColors[colorIndex]);
+        }
+        return this.userColors.get(username);
     }
 }
 
